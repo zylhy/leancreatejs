@@ -122,6 +122,50 @@ if (reversed == null) { reversed = false; }
 }).prototype = getMCSymbolPrototype(lib.按钮, new cjs.Rectangle(-1,-1,75.6,75.6), null);
 
 
+(lib.role = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = true; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {death1:29};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
+
+	// timeline functions:
+	this.frame_19 = function() {
+		this.gotoAndPlay(0)
+	}
+	this.frame_39 = function() {
+		this.stop()
+		this.gotoAndPlay(0)
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).wait(19).call(this.frame_19).wait(20).call(this.frame_39).wait(1));
+
+	// 死亡效果
+	this.death = new lib.死亡效果();
+	this.death.name = "death";
+	this.death.setTransform(214.85,313.25,0.823,0.823,0,0,0,12.2,12.2);
+	this.death._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.death).wait(29).to({_off:false},0).to({alpha:0.8008},2).to({alpha:0},8).wait(1));
+
+	// 角色
+	this.user = new lib.角色();
+	this.user.name = "user";
+	this.user.setTransform(214.8,313.2,0.5,0.5,0,0,0,20,20);
+
+	this.timeline.addTween(cjs.Tween.get(this.user).to({scaleX:0.25,scaleY:0.25},9).to({scaleX:0.5,scaleY:0.5},10).to({_off:true},1).wait(20));
+
+	this._renderFirstFrame();
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,225.8,324.2);
+
+
 // stage content:
 (lib.无标题1 = function(mode,startPosition,loop,reversed) {
 if (loop == null) { loop = true; }
@@ -134,14 +178,12 @@ if (reversed == null) { reversed = false; }
 	props.reversed = reversed;
 	cjs.MovieClip.apply(this,[props]);
 
-	this.actionFrames = [19];
-	// timeline functions:
-	this.frame_19 = function() {
-		this.gotoAndPlay(0)
-	}
+	// 角色
+	this.role = new lib.role();
+	this.role.name = "role";
+	this.role.setTransform(295,296.95,1,1,0,0,0,214.8,313.2);
 
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).wait(19).call(this.frame_19).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.role).wait(30));
 
 	// 按钮
 	this.btn = new lib.按钮();
@@ -150,24 +192,10 @@ if (reversed == null) { reversed = false; }
 
 	this.timeline.addTween(cjs.Tween.get(this.btn).wait(30));
 
-	// 死亡效果
-	this.instance = new lib.死亡效果();
-	this.instance.setTransform(214.85,313.25,0.823,0.823,0,0,0,12.2,12.2);
-	this.instance._off = true;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(19).to({_off:false},0).to({alpha:0},10).wait(1));
-
-	// 角色
-	this.user = new lib.角色();
-	this.user.name = "user";
-	this.user.setTransform(214.8,313.2,0.5,0.5,0,0,0,20,20);
-
-	this.timeline.addTween(cjs.Tween.get(this.user).to({scaleX:0.25,scaleY:0.25},9).to({scaleX:0.5,scaleY:0.5},10).to({_off:true},1).wait(10));
-
 	this._renderFirstFrame();
 
 }).prototype = p = new lib.AnMovieClip();
-p.nominalBounds = new cjs.Rectangle(308.5,419.8,-82.69999999999999,-95.60000000000002);
+p.nominalBounds = new cjs.Rectangle(308.5,419.8,-3.1999999999999886,-112.60000000000002);
 // library properties:
 lib.properties = {
 	id: 'B80316F367F74B4D908F944A619C33B7',
