@@ -404,13 +404,16 @@ if (reversed == null) { reversed = false; }
 	props.reversed = reversed;
 	cjs.MovieClip.apply(this,[props]);
 
-	// 图层_1
+	// 图层_1_复制
 	this.instance = new lib.footer_1();
 	this.instance.setTransform(349.4,386.5,1,1,0,0,0,350.4,36.5);
 
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+	// 图层_1
 	this.instance_1 = new lib.bg();
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
 
 	this._renderFirstFrame();
 
@@ -425,7 +428,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/eatAll_atlas_1.png?1660028110676", id:"eatAll_atlas_1"}
+		{src:"images/eatAll_atlas_1.png?1660131956766", id:"eatAll_atlas_1"}
 	],
 	preloads: []
 };

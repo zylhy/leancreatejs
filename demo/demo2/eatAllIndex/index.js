@@ -32,6 +32,31 @@ function handleComplete(evt, comp) {
 	exportRoot = new lib.eatAll();
 	stage = new lib.Stage(canvas);
 	//Registers the "tick" event listener.
+	//音乐
+
+	const SOUND = [
+		{ src: './audio/bg.mp3', id: 'bg' },
+		{ src: './audio/boom.mp3', id: 'boom' },
+		{ src: './audio/coin.mp3', id: 'coin' },
+		{ src: './audio/play.mp3', id: 'play' },
+	]
+	createjs.Sound.alternateExtensions = ["mp3"];
+	createjs.Sound.on("fileload", loadHandler);
+	createjs.Sound.registerSounds(SOUND, "./");
+	let loadNum = 0;
+	function loadHandler(event) {
+		loadNum++
+		if (loadNum == SOUND.length){
+			console.log('加载完毕')
+		}
+		// This is fired for each sound that is registered.
+		// var instance = createjs.Sound.play("sound");  // play using id.  Could also use full sourcepath or event.src.
+		// instance.on("complete", this.handleComplete, this);
+		// instance.volume = 0.5;
+	}
+
+
+
 	fnStartAnimation = function () {
 		stage.addChild(exportRoot);
 
@@ -55,15 +80,12 @@ function handleComplete(evt, comp) {
 			var coin = new lib.coin();
 			coin.x = Math.floor(Math.random() * 665)
 			coin.y = -50
-		exportRoot.addChildAt(coin, 1)
+			exportRoot.addChildAt(coin, 1)
 			createjs.Tween.get(coin).to({ y: 380 }, coinSpeed).call(() => {
 				exportRoot.removeChild(coin)
 				hp--
 				document.querySelector('.hp').innerHTML = `${hp}`
-				if (hp <= 0) {
-					role.gotoAndPlay('death')
-					clearInterval(coinInterval)
-				}
+
 			}).addEventListener('change', () => {
 				let hit = ndgmr.checkRectCollision(coin, role)
 				if (hit) {
@@ -71,6 +93,7 @@ function handleComplete(evt, comp) {
 					createjs.Tween.removeTweens(coin)
 					num++
 					document.querySelector('.num').innerHTML = num
+					createjs.Sound.play("coin")
 				}
 			})
 
@@ -89,7 +112,7 @@ function handleComplete(evt, comp) {
 		}
 		function keyUp(e) {
 			isKeyDown = false;
-			if(e.keyCode === 37 || e.keyCode == 39){
+			if (e.keyCode === 37 || e.keyCode == 39) {
 				role.gotoAndPlay('stop');
 
 			}
@@ -97,6 +120,15 @@ function handleComplete(evt, comp) {
 
 		createjs.Ticker.addEventListener('tick', tickFn)
 		function tickFn() {
+			if (hp <= 0) {
+				createjs.Sound.play('boom')
+				role.gotoAndPlay('death')
+				createjs.Ticker.removeEventListener('tick', tickFn)
+				clearInterval(coinInterval)
+				window.removeEventListener("keydown", keyDown)
+				window.removeEventListener("keyup", keyUp)
+			}
+
 			if (!isKeyDown) return
 			role.scaleX = direction
 			console.log(role.x)

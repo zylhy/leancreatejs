@@ -6,21 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="authoring-tool" content="Adobe_Animate_CC">
     <title>eatAll</title>
+
+<style>
+    .play{
+        position: absolute;
+        top: 37%;
+    left: 22%;
+    display: block;
+    }
+</style>
+
     <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
     <script src="eatAll.js?1660014703368"></script>
     <script src="ndgmr.Collision.js"></script>
     <script src="index.js"></script>
+
 </head>
 <body>
-    <div class="wrap">
+    <div class="wrap" style="position: relative;">
 
 	<div id="animation_container" style="background-color:rgba(255,255 , 255, 1.00); width:700px; height:400px">
 		<canvas id="canvas" width="700" height="400" style="position: absolute; display: block; background-color:rgba(255,255 , 255, 1.00);"></canvas>
 		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:700px; height:400px; position: absolute; left: 0px; top: 0px; display: block;">
 		</div>
 	</div>
-    <div class="num">0</div>
+    <div class="num" style="position: absolute; top: 10px; left: 10px;">0</div>
     <div class="hp">10</div>
+    <div class="play">
+        <img src="./images/play.png" alt="">
+    </div>
     </div>
 </body>
+
 </html>

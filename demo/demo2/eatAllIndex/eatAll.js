@@ -253,13 +253,17 @@
 		// timeline functions:
 		this.frame_0 = function() {
 			this.stop()
+			this.stop()
 		}
 		this.frame_8 = function() {
 			this.gotoAndPlay("run")
 		}
-		
+		this.frame_29 = function() {
+			this.stop()
+		}
+	
 		// actions tween:
-		this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(8).call(this.frame_8).wait(22));
+		this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(8).call(this.frame_8).wait(21).call(this.frame_29).wait(1));
 	
 		// role
 		this.instance = new lib.stop();
@@ -400,13 +404,16 @@
 		props.reversed = reversed;
 		cjs.MovieClip.apply(this,[props]);
 	
-		// 图层_1
+		// 图层_1_复制
 		this.instance = new lib.footer_1();
 		this.instance.setTransform(349.4,386.5,1,1,0,0,0,350.4,36.5);
 	
+		this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+	
+		// 图层_1
 		this.instance_1 = new lib.bg();
 	
-		this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.instance}]}).wait(1));
+		this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
 	
 		this._renderFirstFrame();
 	
@@ -421,7 +428,7 @@
 		color: "#FFFFFF",
 		opacity: 1.00,
 		manifest: [
-			{src:"images/eatAll_atlas_1.png?1660025593999", id:"eatAll_atlas_1"}
+			{src:"images/eatAll_atlas_1.png?1660131956766", id:"eatAll_atlas_1"}
 		],
 		preloads: []
 	};
