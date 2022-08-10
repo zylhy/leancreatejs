@@ -257,7 +257,7 @@
 		this.frame_8 = function() {
 			this.gotoAndPlay("run")
 		}
-	
+		
 		// actions tween:
 		this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(8).call(this.frame_8).wait(22));
 	

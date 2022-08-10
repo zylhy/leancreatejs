@@ -41,6 +41,7 @@ function handleComplete(evt, comp) {
 		let coinSpeed = 3000  // 金币掉落速度
 		let coinShow = 1000  // 金币出现速度
 		let num = 0  // 分数
+		let hp = 10  // 生命
 		// 将人物添加到舞台
 		var role = new lib.role();
 		role.x = 356.85;
@@ -50,14 +51,19 @@ function handleComplete(evt, comp) {
 
 
 
-		setInterval(() => {
+		let coinInterval = setInterval(() => {
 			var coin = new lib.coin();
 			coin.x = Math.floor(Math.random() * 665)
 			coin.y = -50
-			exportRoot.addChildAt(coin, 1)
-			createjs.Tween.get(coin).to({ y: 400 }, coinSpeed).call(() => {
+		exportRoot.addChildAt(coin, 1)
+			createjs.Tween.get(coin).to({ y: 380 }, coinSpeed).call(() => {
 				exportRoot.removeChild(coin)
-
+				hp--
+				document.querySelector('.hp').innerHTML = `${hp}`
+				if (hp <= 0) {
+					role.gotoAndPlay('death')
+					clearInterval(coinInterval)
+				}
 			}).addEventListener('change', () => {
 				let hit = ndgmr.checkRectCollision(coin, role)
 				if (hit) {
@@ -83,7 +89,10 @@ function handleComplete(evt, comp) {
 		}
 		function keyUp(e) {
 			isKeyDown = false;
-			role.gotoAndPlay('stop');
+			if(e.keyCode === 37 || e.keyCode == 39){
+				role.gotoAndPlay('stop');
+
+			}
 		}
 
 		createjs.Ticker.addEventListener('tick', tickFn)
@@ -93,7 +102,7 @@ function handleComplete(evt, comp) {
 			console.log(role.x)
 
 			if (role.x <= 26 || role.x >= 667) {
-				console.log(role.x)
+				role.x = role.x <= 26 ? 27 : 666
 				return
 
 			} else {
