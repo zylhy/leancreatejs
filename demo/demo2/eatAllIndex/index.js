@@ -31,6 +31,8 @@ function handleComplete(evt, comp) {
 	}
 	exportRoot = new lib.eatAll();
 	stage = new lib.Stage(canvas);
+	stage.addChild(exportRoot);
+
 	//Registers the "tick" event listener.
 	//音乐
 
@@ -46,7 +48,7 @@ function handleComplete(evt, comp) {
 	let loadNum = 0;
 	function loadHandler(event) {
 		loadNum++
-		if (loadNum == SOUND.length){
+		if (loadNum == SOUND.length) {
 			console.log('加载完毕')
 		}
 		// This is fired for each sound that is registered.
@@ -54,12 +56,6 @@ function handleComplete(evt, comp) {
 		// instance.on("complete", this.handleComplete, this);
 		// instance.volume = 0.5;
 	}
-
-
-
-	fnStartAnimation = function () {
-		stage.addChild(exportRoot);
-
 		const SPEED = 10;  //速度
 		let direction = 1;  // 方向
 		let isKeyDown = false; // 按键状态
@@ -67,6 +63,7 @@ function handleComplete(evt, comp) {
 		let coinShow = 1000  // 金币出现速度
 		let num = 0  // 分数
 		let hp = 10  // 生命
+		let isJump = false  // 是否在跳
 		// 将人物添加到舞台
 		var role = new lib.role();
 		role.x = 356.85;
@@ -80,7 +77,7 @@ function handleComplete(evt, comp) {
 			var coin = new lib.coin();
 			coin.x = Math.floor(Math.random() * 665)
 			coin.y = -50
-			exportRoot.addChildAt(coin, 1)
+			exportRoot.addChildAt(coin, 0)
 			createjs.Tween.get(coin).to({ y: 380 }, coinSpeed).call(() => {
 				exportRoot.removeChild(coin)
 				hp--
@@ -100,14 +97,38 @@ function handleComplete(evt, comp) {
 		}, coinShow);
 
 
+
+	fnStartAnimation = function () {
+	
+
 		window.addEventListener("keydown", keyDown)
 		window.addEventListener("keyup", keyUp)
 		function keyDown(e) {
+			console.log(e)
 			if (isKeyDown) return
-			if (e.keyCode === 37 || e.keyCode == 39) {
+			if (e.keyCode === 37 || e.keyCode === 39) {
 				isKeyDown = true;
 				direction = e.keyCode === 37 ? -1 : 1
 				role.gotoAndPlay('run')
+			}
+			if (e.keyCode === 32 && !isJump) {
+				isJump = true
+				let up = setInterval(() => {
+					role.y -= 5
+					if (role.y <= 200) {
+						clearInterval(up);
+						let down = setInterval(() => {
+							role.y += 5
+							if (role.y >= 334) {
+								role.y = 334
+								isJump = false
+								clearInterval(down)
+							}
+						}, 10);
+
+					}
+				}, 10);
+
 			}
 		}
 		function keyUp(e) {
