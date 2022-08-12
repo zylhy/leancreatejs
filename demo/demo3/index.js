@@ -38,26 +38,83 @@ function handleComplete(evt, comp) {
 
         let pillarX = 575  // 柱子默认的x
         //添加鸟
-        var bird = new lib.bird();
+        var bird = new lib.bird()
         bird.gotoAndPlay('yelloFly')
         bird.x = 135.95
         bird.y = 256.5
+        pillarSpeed = 2000
+        num = 0
+        iskeyDown = false
         exportRoot.addChild(bird)
-
-
-
         // 添加柱子
         let pillarInterval = setInterval(() => {
             var greenPillarUp = new lib.greenpillarUp();
             var greenPillarDown = new lib.greenpillarDown();
             greenPillarUp.x = pillarX
             greenPillarDown.x = pillarX
-            greenPillarUp.y = Math.floor(Math.random() * ((-58.95 + 246.05 + 1) - 246.05))
-            greenPillarDown.y = Math.floor(Math.random() * ((423 - 261.05 + 1) + 261.05))
+            greenPillarDown.isFirst = true
+            greenPillarUp.y = Math.floor(Math.random() * (-136.95 + 246.05 + 1) - 246.05)
+            greenPillarDown.y = Math.floor(Math.random() * (437 - 297 + 1) + 297)
             exportRoot.addChild(greenPillarUp)
             exportRoot.addChild(greenPillarDown)
-        }, 500)
+            createjs.Tween.get(greenPillarUp).to({ x: -50 }, pillarSpeed).call(() => {
+                exportRoot.removeChild(greenPillarUp)
+            }).addEventListener('change', () => {
 
+                let hit = ndgmr.checkRectCollision(bird, greenPillarUp)
+                if (hit) {
+                    bird.gotoAndPlay('die')
+                    this.clearInterval(pillarInterval)
+                }
+            })
+            createjs.Tween.get(greenPillarDown).to({ x: -50 }, pillarSpeed).call(() => {
+                exportRoot.removeChild(greenPillarDown)
+            }).addEventListener('change', () => {
+
+           if(greenPillarDown.x<bird.x&&greenPillarDown.isFirst){
+            num++
+            document.querySelector('.num').innerHTML= num
+            greenPillarDown.isFirst =false
+           }
+                let hit = ndgmr.checkRectCollision(bird, greenPillarDown)
+                if (hit) {
+                    bird.gotoAndPlay('die')
+                    this.clearInterval(pillarInterval)
+
+                }
+            })
+        }, 800)
+        // function getpillarY() {
+        //  let   greenPillarUp = Math.floor(Math.random() * (-8.95 + 246.05 + 1) - 246.05)
+        //   let  greenPillarDown = Math.floor(Math.random() * (370 - 261.05 + 1) + 261.05)
+        //     console.log(greenPillarDown + greenPillarUp)
+        //     if (greenPillarDown.y + greenPillarUp.y > 50) {
+        //         let a = [greenPillarUp, greenPillarDown]
+        //         return a
+        //     }
+        //     else {
+        //         getpillarY()
+        //     }
+        // }
+        window.addEventListener('keydown', (e) => {
+            if (e.keyCode === 38) {
+                iskeyDown = true;
+            }
+        })
+        window.addEventListener('keyup', (e) => {
+            if (e.keyCode === 38) {
+                iskeyDown = false;
+            }
+        })
+        createjs.Ticker.addEventListener('tick', () => {
+
+            if (!iskeyDown) {
+                bird.y += 5
+            }
+            else {
+                bird.y -= 10
+            }
+        })
 
 
 
